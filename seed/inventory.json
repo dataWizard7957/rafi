@@ -1,0 +1,474 @@
+[
+  {
+    "sku": "hummus-sahadi",
+    "name": "Sahadi hummus",
+    "aliases": [
+      "hummus",
+      "حمص",
+      "hummus sahadi"
+    ],
+    "qty": 0,
+    "par": 12,
+    "unit": "tub",
+    "supplierId": "produce",
+    "price": 5.49,
+    "category": "dips",
+    "seasonal": false
+  },
+  {
+    "sku": "hummus-house",
+    "name": "House-made hummus",
+    "aliases": [
+      "house hummus",
+      "homemade hummus",
+      "حمص بيتي",
+      "hummus casero"
+    ],
+    "qty": 8,
+    "par": 10,
+    "unit": "tub",
+    "supplierId": "produce",
+    "price": 5.49,
+    "category": "dips",
+    "seasonal": false
+  },
+  {
+    "sku": "baba-ghanoush",
+    "name": "Baba ghanoush",
+    "aliases": [
+      "بابا غنوج",
+      "baba ganoush"
+    ],
+    "qty": 6,
+    "par": 8,
+    "unit": "tub",
+    "supplierId": "produce",
+    "price": 5.99,
+    "category": "dips",
+    "seasonal": false
+  },
+  {
+    "sku": "labneh",
+    "name": "Labneh",
+    "aliases": [
+      "لبنة",
+      "labne"
+    ],
+    "qty": 9,
+    "par": 10,
+    "unit": "tub",
+    "supplierId": "produce",
+    "price": 4.99,
+    "category": "dips",
+    "seasonal": false
+  },
+  {
+    "sku": "pita",
+    "name": "Pita bread",
+    "aliases": [
+      "pita",
+      "خبز عربي",
+      "pan pita"
+    ],
+    "qty": 12,
+    "par": 30,
+    "unit": "bag",
+    "supplierId": "bakery",
+    "price": 2.49,
+    "category": "bread",
+    "seasonal": false
+  },
+  {
+    "sku": "flatbread",
+    "name": "Flatbread",
+    "aliases": [
+      "markouk",
+      "خبز رقيق",
+      "pan plano"
+    ],
+    "qty": 14,
+    "par": 20,
+    "unit": "bag",
+    "supplierId": "bakery",
+    "price": 3.49,
+    "category": "bread",
+    "seasonal": true
+  },
+  {
+    "sku": "kaak",
+    "name": "Ka'ak",
+    "aliases": [
+      "kaak",
+      "كعك"
+    ],
+    "qty": 10,
+    "par": 12,
+    "unit": "bag",
+    "supplierId": "bakery",
+    "price": 3.99,
+    "category": "bread",
+    "seasonal": false
+  },
+  {
+    "sku": "milk",
+    "name": "Whole milk",
+    "aliases": [
+      "milk",
+      "حليب",
+      "leche"
+    ],
+    "qty": 18,
+    "par": 24,
+    "unit": "gallon",
+    "supplierId": "produce",
+    "price": 4.29,
+    "category": "dairy",
+    "seasonal": false
+  },
+  {
+    "sku": "yogurt",
+    "name": "Plain yogurt",
+    "aliases": [
+      "yogurt",
+      "لبن",
+      "yogur"
+    ],
+    "qty": 12,
+    "par": 16,
+    "unit": "tub",
+    "supplierId": "produce",
+    "price": 3.99,
+    "category": "dairy",
+    "seasonal": false
+  },
+  {
+    "sku": "feta",
+    "name": "Feta cheese",
+    "aliases": [
+      "feta",
+      "جبنة بيضاء",
+      "queso feta"
+    ],
+    "qty": 10,
+    "par": 12,
+    "unit": "pack",
+    "supplierId": "produce",
+    "price": 6.49,
+    "category": "dairy",
+    "seasonal": false
+  },
+  {
+    "sku": "halloumi",
+    "name": "Halloumi",
+    "aliases": [
+      "حلوم"
+    ],
+    "qty": 7,
+    "par": 10,
+    "unit": "pack",
+    "supplierId": "produce",
+    "price": 7.99,
+    "category": "dairy",
+    "seasonal": false
+  },
+  {
+    "sku": "rice",
+    "name": "Basmati rice 10 lb",
+    "aliases": [
+      "rice",
+      "رز",
+      "arroz"
+    ],
+    "qty": 15,
+    "par": 15,
+    "unit": "bag",
+    "supplierId": "pantry",
+    "price": 14.99,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "lentils",
+    "name": "Red lentils",
+    "aliases": [
+      "lentils",
+      "عدس",
+      "lentejas"
+    ],
+    "qty": 20,
+    "par": 20,
+    "unit": "bag",
+    "supplierId": "pantry",
+    "price": 3.49,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "tahini",
+    "name": "Tahini",
+    "aliases": [
+      "طحينة",
+      "tahina"
+    ],
+    "qty": 11,
+    "par": 12,
+    "unit": "jar",
+    "supplierId": "pantry",
+    "price": 6.99,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "olive-oil",
+    "name": "Olive oil 1 L",
+    "aliases": [
+      "olive oil",
+      "زيت زيتون",
+      "aceite de oliva"
+    ],
+    "qty": 14,
+    "par": 15,
+    "unit": "bottle",
+    "supplierId": "pantry",
+    "price": 11.99,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "zaatar",
+    "name": "Za'atar",
+    "aliases": [
+      "zaatar",
+      "زعتر"
+    ],
+    "qty": 18,
+    "par": 15,
+    "unit": "bag",
+    "supplierId": "pantry",
+    "price": 4.99,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "dates",
+    "name": "Medjool dates",
+    "aliases": [
+      "dates",
+      "تمر",
+      "dátiles"
+    ],
+    "qty": 16,
+    "par": 20,
+    "unit": "box",
+    "supplierId": "pantry",
+    "price": 9.99,
+    "category": "pantry",
+    "seasonal": true
+  },
+  {
+    "sku": "chickpeas",
+    "name": "Chickpeas (canned)",
+    "aliases": [
+      "chickpeas",
+      "حمص حب",
+      "garbanzos"
+    ],
+    "qty": 24,
+    "par": 24,
+    "unit": "can",
+    "supplierId": "pantry",
+    "price": 1.49,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "chicken",
+    "name": "Halal chicken thighs",
+    "aliases": [
+      "chicken",
+      "دجاج",
+      "pollo"
+    ],
+    "qty": 10,
+    "par": 14,
+    "unit": "lb pack",
+    "supplierId": "halal",
+    "price": 6.99,
+    "category": "meat",
+    "seasonal": false
+  },
+  {
+    "sku": "ground-beef",
+    "name": "Halal ground beef",
+    "aliases": [
+      "ground beef",
+      "لحمة مفرومة",
+      "carne molida"
+    ],
+    "qty": 9,
+    "par": 12,
+    "unit": "lb pack",
+    "supplierId": "halal",
+    "price": 7.49,
+    "category": "meat",
+    "seasonal": false
+  },
+  {
+    "sku": "lamb",
+    "name": "Halal lamb chops",
+    "aliases": [
+      "lamb",
+      "لحم غنم",
+      "cordero"
+    ],
+    "qty": 5,
+    "par": 8,
+    "unit": "lb pack",
+    "supplierId": "halal",
+    "price": 12.99,
+    "category": "meat",
+    "seasonal": false
+  },
+  {
+    "sku": "tomatoes",
+    "name": "Tomatoes",
+    "aliases": [
+      "tomato",
+      "بندورة",
+      "tomates"
+    ],
+    "qty": 30,
+    "par": 40,
+    "unit": "lb",
+    "supplierId": "produce",
+    "price": 1.99,
+    "category": "produce",
+    "seasonal": false
+  },
+  {
+    "sku": "cucumbers",
+    "name": "Persian cucumbers",
+    "aliases": [
+      "cucumber",
+      "خيار",
+      "pepinos"
+    ],
+    "qty": 25,
+    "par": 30,
+    "unit": "lb",
+    "supplierId": "produce",
+    "price": 2.49,
+    "category": "produce",
+    "seasonal": false
+  },
+  {
+    "sku": "parsley",
+    "name": "Parsley",
+    "aliases": [
+      "بقدونس",
+      "perejil"
+    ],
+    "qty": 15,
+    "par": 20,
+    "unit": "bunch",
+    "supplierId": "produce",
+    "price": 0.99,
+    "category": "produce",
+    "seasonal": false
+  },
+  {
+    "sku": "lemons",
+    "name": "Lemons",
+    "aliases": [
+      "lemon",
+      "ليمون",
+      "limones"
+    ],
+    "qty": 30,
+    "par": 30,
+    "unit": "each",
+    "supplierId": "produce",
+    "price": 0.69,
+    "category": "produce",
+    "seasonal": false
+  },
+  {
+    "sku": "mango-juice",
+    "name": "Mango juice",
+    "aliases": [
+      "juice",
+      "عصير مانجو",
+      "jugo de mango"
+    ],
+    "qty": 20,
+    "par": 24,
+    "unit": "bottle",
+    "supplierId": "pantry",
+    "price": 2.99,
+    "category": "drinks",
+    "seasonal": true
+  },
+  {
+    "sku": "tea",
+    "name": "Black tea",
+    "aliases": [
+      "tea",
+      "شاي",
+      "té"
+    ],
+    "qty": 12,
+    "par": 12,
+    "unit": "box",
+    "supplierId": "pantry",
+    "price": 4.49,
+    "category": "drinks",
+    "seasonal": false
+  },
+  {
+    "sku": "coffee",
+    "name": "Arabic coffee with cardamom",
+    "aliases": [
+      "coffee",
+      "قهوة",
+      "café"
+    ],
+    "qty": 10,
+    "par": 12,
+    "unit": "bag",
+    "supplierId": "pantry",
+    "price": 8.99,
+    "category": "drinks",
+    "seasonal": false
+  },
+  {
+    "sku": "falafel-mix",
+    "name": "Falafel mix",
+    "aliases": [
+      "falafel",
+      "فلافل"
+    ],
+    "qty": 12,
+    "par": 12,
+    "unit": "box",
+    "supplierId": "pantry",
+    "price": 3.99,
+    "category": "pantry",
+    "seasonal": false
+  },
+  {
+    "sku": "pickles",
+    "name": "Pickled turnips",
+    "aliases": [
+      "pickles",
+      "مخلل لفت",
+      "encurtidos"
+    ],
+    "qty": 9,
+    "par": 10,
+    "unit": "jar",
+    "supplierId": "pantry",
+    "price": 4.49,
+    "category": "pantry",
+    "seasonal": false
+  }
+]

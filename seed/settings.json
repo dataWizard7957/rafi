@@ -1,0 +1,13 @@
+{
+  "snow_expected": true,
+  "ramadan": false,
+  "storeInfo": {
+    "name": "Cedar & Date Market (fictional demo shop)",
+    "hours": "8 am to 9 pm, 7 days a week",
+    "address": "Dearborn, Michigan (demo address)",
+    "payment": "Cash, credit and debit cards, and Bridge Card (Michigan EBT) for eligible items",
+    "halal": "All our meat is halal",
+    "pickup": "Pickup only, no delivery yet",
+    "languages": "We speak Arabic, Spanish and English"
+  }
+}

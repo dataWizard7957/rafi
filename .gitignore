@@ -1,0 +1,14 @@
+.env
+.env.local
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+web/.next/
+web/out/
+*.zip
+service-account*.json
+web/.env.local
+*-key.json
+*credentials*.json
+SPEC.md

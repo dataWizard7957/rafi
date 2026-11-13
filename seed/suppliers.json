@@ -1,0 +1,26 @@
+[
+  {
+    "id": "produce",
+    "name": "Gratiot Fresh Wholesale (fictional, Eastern Market)",
+    "email": "orders@example.com",
+    "leadTimeDays": 1
+  },
+  {
+    "id": "bakery",
+    "name": "Cedar Hearth Bakery (fictional, Dearborn)",
+    "email": "orders@example.com",
+    "leadTimeDays": 1
+  },
+  {
+    "id": "halal",
+    "name": "Lakeside Crescent Meats (fictional)",
+    "email": "orders@example.com",
+    "leadTimeDays": 2
+  },
+  {
+    "id": "pantry",
+    "name": "Mitten State Pantry Supply (fictional)",
+    "email": "orders@example.com",
+    "leadTimeDays": 3
+  }
+]

@@ -1,0 +1,10 @@
+rules_version = '2';
+// Hackathon rules: the dashboard can read the demo shop; only the API (Admin SDK) writes.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /shops/{shopId}/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

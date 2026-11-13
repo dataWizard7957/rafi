@@ -1,0 +1,5 @@
+web/
+orchestrate/
+**/__pycache__
+.env
+*.zip

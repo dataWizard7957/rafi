@@ -6,6 +6,7 @@ Built by **Assembly Line AI** for the Michigan DevFest AI Hackathon (November 13
 
 ## The crew
 
+
 | Agent | Runs on | Job |
 |---|---|---|
 | **Front Desk** | Gemini Live (`gemini-3.8-live`) | Answers calls, checks stock, offers substitutes, takes orders and holds, logs missed requests |

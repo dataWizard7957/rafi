@@ -132,7 +132,7 @@ firebase deploy --only hosting,firestore:rules
 
 1. `POST /demo/reset`, or press Reset on the Agent feed page.
 2. Start the simulated POS feed: `python seed\pos_feed.py`.
-3. Run through the loop above. Progress and the demo script are in [PROGRESS.md](PROGRESS.md).
+3. Run through the loop above.
 
 ## Honest labels
 

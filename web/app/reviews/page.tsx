@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { upload } from "@/lib/api";
+import { demoFile, upload } from "@/lib/api";
 import { useCollection } from "@/lib/useCollection";
 
 export default function Reviews() {
@@ -17,6 +17,13 @@ export default function Reviews() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="h2 text-2xl">Reviews</h1>
+        <div className="flex flex-wrap items-center gap-3">
+        <button className="btn-ghost" disabled={busy} onClick={async () => {
+          setBusy(true);
+          try { await upload("/uploads/reviews", "file", await demoFile("reviews.csv", "text/csv")); } finally { setBusy(false); }
+        }}>
+          Load demo reviews
+        </button>
         <label className="btn cursor-pointer">
           {busy ? "Uploading…" : "Upload reviews CSV"}
           <input type="file" accept=".csv" className="hidden" onChange={async (e) => {
@@ -26,6 +33,7 @@ export default function Reviews() {
             try { await upload("/uploads/reviews", "file", f); } finally { setBusy(false); }
           }} />
         </label>
+        </div>
       </div>
       <p className="text-sm text-stone-600">{labeled.length} of {reviews.length} reviews labeled by the Review Agent.</p>
       <div className="grid gap-6 md:grid-cols-2">

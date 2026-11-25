@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { upload } from "@/lib/api";
+import { demoFile, upload } from "@/lib/api";
 import { useCollection } from "@/lib/useCollection";
 
 export default function Shelf() {
@@ -32,6 +32,10 @@ export default function Shelf() {
           <input type="file" accept="image/*" capture="environment" className="hidden"
                  onChange={(e) => send(e.target.files?.[0])} />
         </label>
+        <button className="btn-ghost" disabled={busy}
+                onClick={async () => { try { send(await demoFile("shelf_demo.jpg", "image/jpeg")); } catch (e: any) { setError(e.message); } }}>
+          Use demo shelf photo
+        </button>
         <label className="flex items-center gap-2 text-sm text-stone-600">
           <input type="checkbox" checked={direct} onChange={(e) => setDirect(e.target.checked)} />
           Scan directly (skip agents, fallback mode)

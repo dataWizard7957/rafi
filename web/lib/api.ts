@@ -11,6 +11,13 @@ export async function post(path: string, body?: unknown) {
   return r.json();
 }
 
+/** Fetch a bundled demo file from /public/demo and wrap it as a File for upload(). */
+export async function demoFile(name: string, type: string): Promise<File> {
+  const r = await fetch(`/demo/${name}`);
+  if (!r.ok) throw new Error(`Demo file missing: ${name}`);
+  return new File([await r.blob()], name, { type });
+}
+
 export async function upload(path: string, field: string, file: File) {
   const fd = new FormData();
   fd.append(field, file);

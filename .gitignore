@@ -12,3 +12,5 @@ web/.env.local
 *-key.json
 *credentials*.json
 SPEC.md
+
+*.tsbuildinfo

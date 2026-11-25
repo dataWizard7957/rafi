@@ -1,0 +1,622 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Rafi tools",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/tools/stock": {
+      "get": {
+        "summary": "get_stock",
+        "operationId": "get_stock",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "List every item with qty, par, category, status, restock date, missed requests (lostDemand) and units sold in the last 24 hours."
+      }
+    },
+    "/tools/orders": {
+      "get": {
+        "summary": "get_recent_orders",
+        "operationId": "get_recent_orders",
+        "parameters": [
+          {
+            "name": "hours",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 24,
+              "title": "Hours"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Customer orders from the last N hours."
+      }
+    },
+    "/tools/settings": {
+      "get": {
+        "summary": "get_settings",
+        "operationId": "get_settings",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Shop settings: snow_expected, ramadan, store info."
+      }
+    },
+    "/tools/scan_shelf": {
+      "post": {
+        "summary": "scan_shelf",
+        "operationId": "scan_shelf",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Count items in a shelf photo. Updates stock to the photo counts and returns detections, drift (system vs photo) and low items, or status 'retake' if the photo is unreliable."
+      }
+    },
+    "/tools/mark_restocked": {
+      "post": {
+        "summary": "mark_restocked",
+        "operationId": "mark_restocked",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SkuIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Mark an item as back on the shelf after a delivery."
+      }
+    },
+    "/tools/reviews": {
+      "get": {
+        "summary": "get_new_reviews",
+        "operationId": "get_new_reviews",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Get the next unlabeled customer reviews (id, text, rating)."
+      }
+    },
+    "/tools/review_labels": {
+      "post": {
+        "summary": "save_review_labels",
+        "operationId": "save_review_labels",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LabelsIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Save labels for reviews. labels is a list of objects with id, theme (food quality, wait time, staff, price, cleanliness, stock or availability, other), sentiment (positive, neutral, negative), item (product name or empty) and quote (max 10 words from the review). Returns errors to fix and resend."
+      }
+    },
+    "/tools/replies": {
+      "post": {
+        "summary": "draft_reply",
+        "operationId": "draft_reply",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplyIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Save a short, warm reply draft to a review for the owner to post."
+      }
+    },
+    "/tools/tasks": {
+      "post": {
+        "summary": "create_task",
+        "operationId": "create_task",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Add a task to the owner's Today list. priority is high, medium or low. created_by is your agent name. evidence_count is how many reviews, requests or data points support it."
+      }
+    },
+    "/tools/open_tasks": {
+      "get": {
+        "summary": "get_open_tasks",
+        "operationId": "get_open_tasks",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Open tasks on the owner's Today list."
+      }
+    },
+    "/tools/supplier_drafts": {
+      "post": {
+        "summary": "draft_supplier_order",
+        "operationId": "draft_supplier_order",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Draft ONE order for ONE supplier for the owner to approve. lines is a list of {sku, qty}. reason must cite the evidence: missed requests, holds, reviews, sales pace, drift."
+      }
+    },
+    "/tools/holds": {
+      "get": {
+        "summary": "get_holds",
+        "operationId": "get_holds",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Customers waiting on out-of-stock items (holds with status 'waiting')."
+      }
+    },
+    "/tools/holds/fulfill": {
+      "post": {
+        "summary": "fulfill_holds",
+        "operationId": "fulfill_holds",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SkuIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Turn waiting holds for a restocked item into pickup orders. Returns the customers to notify."
+      }
+    },
+    "/tools/notify": {
+      "post": {
+        "summary": "notify_customer",
+        "operationId": "notify_customer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Notify a waiting customer (simulated message shown in the feed). Write the message in the customer's language."
+      }
+    },
+    "/tools/log": {
+      "post": {
+        "summary": "log",
+        "operationId": "log",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Write one short line to the shop's live agent feed explaining what you did or decided."
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DraftIn": {
+        "properties": {
+          "supplier_id": {
+            "type": "string",
+            "title": "Supplier Id"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "supplier_id",
+          "lines",
+          "reason"
+        ],
+        "title": "DraftIn"
+      },
+      "Label": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "theme": {
+            "type": "string",
+            "title": "Theme"
+          },
+          "sentiment": {
+            "type": "string",
+            "title": "Sentiment"
+          },
+          "item": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item"
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "theme",
+          "sentiment"
+        ],
+        "title": "Label"
+      },
+      "LabelsIn": {
+        "properties": {
+          "labels": {
+            "items": {
+              "$ref": "#/components/schemas/Label"
+            },
+            "type": "array",
+            "title": "Labels"
+          }
+        },
+        "type": "object",
+        "required": [
+          "labels"
+        ],
+        "title": "LabelsIn"
+      },
+      "Line": {
+        "properties": {
+          "sku": {
+            "type": "string",
+            "title": "Sku"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sku",
+          "qty"
+        ],
+        "title": "Line"
+      },
+      "LogIn": {
+        "properties": {
+          "agent": {
+            "type": "string",
+            "title": "Agent"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "to": {
+            "type": "string",
+            "title": "To",
+            "default": "feed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "agent",
+          "message"
+        ],
+        "title": "LogIn"
+      },
+      "NotifyIn": {
+        "properties": {
+          "hold_id": {
+            "type": "string",
+            "title": "Hold Id"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hold_id",
+          "message"
+        ],
+        "title": "NotifyIn"
+      },
+      "ReplyIn": {
+        "properties": {
+          "review_id": {
+            "type": "string",
+            "title": "Review Id"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "review_id",
+          "text"
+        ],
+        "title": "ReplyIn"
+      },
+      "ScanIn": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id"
+        ],
+        "title": "ScanIn"
+      },
+      "SkuIn": {
+        "properties": {
+          "sku": {
+            "type": "string",
+            "title": "Sku"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sku"
+        ],
+        "title": "SkuIn"
+      },
+      "TaskIn": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "default": ""
+          },
+          "priority": {
+            "type": "string",
+            "title": "Priority",
+            "default": "medium"
+          },
+          "created_by": {
+            "type": "string",
+            "title": "Created By",
+            "default": "manager"
+          },
+          "evidence_count": {
+            "type": "integer",
+            "title": "Evidence Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "TaskIn"
+      }
+    },
+    "securitySchemes": {
+      "RafiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Rafi-Key"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://mustang-charter-casting-fibre.trycloudflare.com"
+    }
+  ],
+  "security": [
+    {
+      "RafiKey": []
+    }
+  ]
+}

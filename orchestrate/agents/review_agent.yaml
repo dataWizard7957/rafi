@@ -19,7 +19,8 @@ instructions: >
   If complaints say an item is out of stock, report the item name and count to your supervisor.
   When your supervisor says an item is restocked, draft a reply to each review that complained
   about that item, for example "We've fixed our hummus supply. Come see us this week."
-  Call log with agent "review_agent" for each finding, one short sentence each.
+  Only after all batches are done, call log with agent "review_agent" once per distinct finding,
+  one short sentence each, with totals across all reviews. Never log the same finding twice.
 tools:
   - get_new_reviews
   - save_review_labels

@@ -1,80 +1,63 @@
 # Import Rafi's tools and agents into watsonx Orchestrate (Tokyo instance).
 #
-# PREREQS — run these once to connect the ADK to your Tokyo instance:
+# Tools are OpenAPI tools: Orchestrate calls the Rafi API /tools/* routes directly over HTTP.
+# (Python tools failed on our instance with "Error getting Python tool status".)
 #
-#   1. Add the environment (replace <URL> with your Tokyo service URL):
-#      .venv\Scripts\orchestrate env add -n rafi -u <ORCHESTRATE_URL> --type ibm_iam
+# PREREQS
+#   1. ADK connected and active:
+#        .venv\Scripts\orchestrate env activate rafi-prod --api-key <ORCHESTRATE_APIKEY>
+#   2. The Rafi API reachable at a public URL (Cloud Run, or a tunnel to localhost:8080).
+#   3. In this shell:
+#        $env:RAFI_API = "https://<public-api-url>"
+#        $env:RAFI_KEY = "<same value as RAFI_KEY in .env>"
+#        .\orchestrate\import_all.ps1
 #
-#   2. Activate it with your IBM IAM API key:
-#      .venv\Scripts\orchestrate env activate rafi --api-key <ORCHESTRATE_APIKEY>
+# Agents use the Orchestrate default model (llm: groq/openai/gpt-oss-120b in agents\*.yaml).
+# Re-run this script whenever the public API URL changes. Afterwards, copy the printed
+# rafi_manager ID into ORCHESTRATE_MANAGER_AGENT in .env (the runs API needs the ID, not the name).
 #
-#   3. Agents use the Orchestrate default model (gpt-oss-120b), already set in
-#      agents\*.yaml as llm: groq/openai/gpt-oss-120b. No Granite on our instance.
-#      Check availability with: .venv\Scripts\orchestrate models list
-#
-#   4. (Optional) Fallback for rafi_manager: Claude Sonnet, if coordination is unreliable.
-#
-#   5. Set env vars in this shell, then run this script:
-#      $env:RAFI_API = "https://<your-cloud-run-url>"   # must be deployed first
-#      $env:RAFI_KEY = "<same value as in .env>"
-#      .\orchestrate\import_all.ps1
-#
-# NOTE: RAFI_API must be the public Cloud Run URL.
-#       Run `gcloud run deploy` first (see README.md step 5).
-#
-# VERIFIED against ibm-watsonx-orchestrate 2.20.0 on 2026-11-13.
+# VERIFIED against ibm-watsonx-orchestrate 2.20.0 on 2026-11-14.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-# Resolve the script's own directory so paths work regardless of cwd
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$Root = Split-Path $ScriptDir -Parent
+$ORC = Join-Path $Root ".venv\Scripts\orchestrate.exe"
+$PY = Join-Path $Root ".venv\Scripts\python.exe"
+$Agents = @("shelf_agent", "review_agent", "rafi_manager")   # collaborators first, Manager last
+$Tools = @("get_stock", "get_recent_orders", "create_task", "log", "scan_shelf", "get_settings", "mark_restocked",
+           "get_new_reviews", "save_review_labels", "draft_reply", "get_open_tasks", "get_holds",
+           "draft_supplier_order", "fulfill_holds", "notify_customer")
 
-# --- Guard: required env vars ---
-if (-not $env:RAFI_API) {
-    Write-Error "Set `$env:RAFI_API to your Cloud Run URL before running this script."
-    exit 1
-}
-if (-not $env:RAFI_KEY) {
-    Write-Error "Set `$env:RAFI_KEY to the same value as RAFI_KEY in your .env."
-    exit 1
-}
-
-# --- Guard: every agent YAML must declare an llm ---
-$yamlFiles = Get-ChildItem "$ScriptDir\agents\*.yaml"
-foreach ($f in $yamlFiles) {
-    if (-not (Select-String -Path $f.FullName -Pattern "^llm:" -Quiet)) {
-        Write-Error "Add an llm: line in $($f.Name) first. Run: .venv\Scripts\orchestrate models list"
-        exit 1
-    }
+if (-not $env:RAFI_API) { Write-Error "Set `$env:RAFI_API to the public API URL first."; exit 1 }
+if (-not $env:RAFI_KEY) { Write-Error "Set `$env:RAFI_KEY to the same value as RAFI_KEY in .env."; exit 1 }
+foreach ($f in Get-ChildItem "$ScriptDir\agents\*.yaml") {
+    if (-not (Select-String -Path $f.FullName -Pattern "^llm:" -Quiet)) { Write-Error "Add an llm: line to $($f.Name)"; exit 1 }
 }
 
-# Use the venv orchestrate CLI
-$ORC = Join-Path (Split-Path $ScriptDir -Parent) ".venv\Scripts\orchestrate"
+# Native commands write progress to stderr; don't treat that as a failure.
+$ErrorActionPreference = "Continue"
 
-Write-Host "`n--- Step 1: Create key-value connection for Rafi API credentials ---"
-# add: creates the connection slot (idempotent-ish; ignore error if it already exists)
-& $ORC connections add --app-id rafi_api
-# configure: declare this as a key-value connection, shared across the team
-& $ORC connections configure --app-id rafi_api --env draft --kind key_value --type team
-# set-credentials: store the actual values (never hard-coded in this file)
-& $ORC connections set-credentials --app-id rafi_api --env draft `
-    --entries "RAFI_API=$($env:RAFI_API)" `
-    --entries "RAFI_KEY=$($env:RAFI_KEY)"
+Write-Host "`n--- Step 1: API-key connection (sends X-Rafi-Key) ---"
+& $ORC connections add --app-id rafi_api_key
+foreach ($e in "draft", "live") {
+    & $ORC connections configure --app-id rafi_api_key --env $e --kind api_key --type team
+    & $ORC connections set-credentials --app-id rafi_api_key --env $e --api-key $env:RAFI_KEY
+}
 
-Write-Host "`n--- Step 2: Import Python tools ---"
-& $ORC tools import `
-    --kind python `
-    --file "$ScriptDir\tools\rafi_tools.py" `
-    --requirements-file "$ScriptDir\tools\requirements.txt" `
-    --app-id rafi_api
+Write-Host "`n--- Step 2: Build the OpenAPI spec for $env:RAFI_API ---"
+& $PY "$ScriptDir\build_openapi.py" $env:RAFI_API "$ScriptDir\tools\rafi_openapi.json"
+if ($LASTEXITCODE -ne 0) { Write-Error "Spec build failed"; exit 1 }
 
-Write-Host "`n--- Step 3: Import agents (collaborators first, Manager last) ---"
-& $ORC agents import --file "$ScriptDir\agents\shelf_agent.yaml"
-& $ORC agents import --file "$ScriptDir\agents\review_agent.yaml"
-& $ORC agents import --file "$ScriptDir\agents\rafi_manager.yaml"
+Write-Host "`n--- Step 3: Remove old agents and tools (ignore 'not found') ---"
+foreach ($a in $Agents) { & $ORC agents remove -n $a -k native }
+foreach ($t in $Tools) { & $ORC tools remove -n $t }
 
-Write-Host "`n--- Imported agents ---"
-& $ORC agents list
+Write-Host "`n--- Step 4: Import OpenAPI tools ---"
+& $ORC tools import -k openapi -f "$ScriptDir\tools\rafi_openapi.json" --app-id rafi_api_key
 
-Write-Host "`nDone. All tools and agents imported into the active Orchestrate environment."
+Write-Host "`n--- Step 5: Import agents ---"
+foreach ($a in $Agents) { & $ORC agents import --file "$ScriptDir\agents\$a.yaml" }
+
+Write-Host "`nDone. Set ORCHESTRATE_MANAGER_AGENT in .env to the rafi_manager 'Agent ID' printed above, then restart the API."

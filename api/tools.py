@@ -157,7 +157,11 @@ class DraftIn(BaseModel):
 
 @router.post("/supplier_drafts")
 def supplier_drafts(body: DraftIn):
-    supplier = col("suppliers").document(body.supplier_id).get().to_dict() or {}
+    # The model sometimes sends "supplier_produce" or "Produce" for the id "produce"; normalise it.
+    sid = body.supplier_id.strip().lower().removeprefix("supplier_").removeprefix("supplier-")
+    supplier = col("suppliers").document(sid).get().to_dict() or {}
+    if supplier:
+        body.supplier_id = sid
     names = {i["sku"]: i["name"] for i in inv.get_stock()}
     order_text = "\n".join(f"- {ln.qty} x {names.get(ln.sku, ln.sku)}" for ln in body.lines)
     email = (f"Hello {supplier.get('name', 'team')},\n\nCedar & Date Market would like to order:\n"

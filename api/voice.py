@@ -15,7 +15,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from google import genai
 from google.genai import types
 
-from config import LIVE_MODEL, LOCATION, PROJECT
+from config import LIVE_MODEL, LOCATION, PROJECT, gemini_client
 from db import SERVER_TS, col
 from front_desk import DECLARATIONS, SYSTEM_INSTRUCTIONS, run_tool
 
@@ -35,7 +35,7 @@ def _config() -> types.LiveConnectConfig:
 @router.websocket("/voice/session")
 async def voice_session(ws: WebSocket):
     await ws.accept()
-    client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
+    client = gemini_client(LOCATION)
     transcript: list[dict] = []
     done = asyncio.Event()
 

@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "api"))
 from google import genai
 from google.genai import types
 
-from config import LIVE_MODEL, LOCATION, PROJECT
+from config import LIVE_MODEL, LOCATION, PROJECT, gemini_client
 from front_desk import DECLARATIONS, SYSTEM_INSTRUCTIONS, run_tool
 
 
@@ -67,7 +67,7 @@ async def recv_turn(session, label: str) -> int:
 
 async def run():
     print(f"Connecting to Gemini Live — model={LIVE_MODEL} project={PROJECT} location={LOCATION}")
-    client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
+    client = gemini_client(LOCATION)
 
     async with client.aio.live.connect(model=LIVE_MODEL, config=_config()) as session:
 

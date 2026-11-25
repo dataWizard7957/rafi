@@ -7,7 +7,7 @@ from google.genai import types
 from pydantic import BaseModel
 
 import inventory_source as inv
-from config import GCS_BUCKET, PROJECT, VISION_LOCATION, VISION_MODEL
+from config import GCS_BUCKET, PROJECT, VISION_LOCATION, VISION_MODEL, gemini_client
 from db import SERVER_TS, col
 
 DRIFT_UNITS = 3
@@ -21,7 +21,7 @@ def client() -> genai.Client:
     global _client
     if _client is None:
         # GEMINI_VISION_LOCATION (default "global"): gemini-3.8-flash is served from global
-        _client = genai.Client(vertexai=True, project=PROJECT, location=VISION_LOCATION)
+        _client = gemini_client(VISION_LOCATION)
     return _client
 
 

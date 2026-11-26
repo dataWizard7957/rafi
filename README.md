@@ -145,3 +145,7 @@ firebase deploy --only hosting,firestore:rules
 
 - **Verified:** `gemini-3.8-live` (us-central1), `gemini-3.8-flash` (global), the Orchestrate default model `gpt-oss-120b`, ADK 2.20.0 CLI flags.
 - **Not yet verified:** the Orchestrate run endpoint and payload (`ORCHESTRATE_RUN_PATH`). If the API can't reach Rafi Manager it logs "Manager not reached" in the feed, and the Manager can be triggered from the Orchestrate chat instead.
+
+## Live demo
+
+[rafi-uqer.onrender.com](https://rafi-uqer.onrender.com).

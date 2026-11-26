@@ -1,7 +1,10 @@
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080").replace(/\/$/, "");
 export const WS_URL = API_URL.replace(/^http/, "ws");
 
+import { DEMO, demoPost, demoUpload } from "./demo";
+
 export async function post(path: string, body?: unknown) {
+  if (DEMO) return demoPost(path);
   const r = await fetch(`${API_URL}${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,6 +22,7 @@ export async function demoFile(name: string, type: string): Promise<File> {
 }
 
 export async function upload(path: string, field: string, file: File) {
+  if (DEMO) return demoUpload(path, file);
   const fd = new FormData();
   fd.append(field, file);
   const r = await fetch(`${API_URL}${path}`, { method: "POST", body: fd });

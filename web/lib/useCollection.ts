@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { onSnapshot, orderBy as ob, limit as lim, query, QueryConstraint } from "firebase/firestore";
 import { shopCol } from "./firebase";
+import { DEMO, query as demoQuery, subscribe as demoSubscribe } from "./demo";
 
 export type Row = { id: string; [key: string]: any };
 
@@ -9,6 +10,12 @@ export type Row = { id: string; [key: string]: any };
 export function useCollection(name: string, opts: { orderBy?: string; desc?: boolean; limit?: number } = {}) {
   const [rows, setRows] = useState<Row[]>([]);
   useEffect(() => {
+    if (DEMO) {
+      const update = () => setRows(demoQuery(name, opts));
+      const off = demoSubscribe(update);
+      update();
+      return () => { off(); };
+    }
     const c: QueryConstraint[] = [];
     if (opts.orderBy) c.push(ob(opts.orderBy, opts.desc ? "desc" : "asc"));
     if (opts.limit) c.push(lim(opts.limit));

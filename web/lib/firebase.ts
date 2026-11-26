@@ -1,8 +1,11 @@
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 
-const app =
-  getApps()[0] ??
+import { DEMO } from "./demo";
+
+const app = DEMO
+  ? null
+  : getApps()[0] ??
   initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -10,6 +13,6 @@ const app =
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 
-export const db = getFirestore(app);
+export const db = DEMO ? (null as any) : getFirestore(app!);
 export const SHOP_ID = process.env.NEXT_PUBLIC_SHOP_ID ?? "cedar-and-date";
 export const shopCol = (name: string) => collection(db, "shops", SHOP_ID, name);

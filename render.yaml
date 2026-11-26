@@ -1,0 +1,18 @@
+# Render Blueprint: the Rafi live demo as a free static site.
+# The real dashboard built in demo mode (NEXT_PUBLIC_DEMO=true) runs on the
+# seed data in the browser. No Firebase, Google Cloud or Orchestrate needed.
+services:
+  - type: web
+    name: rafi
+    runtime: static
+    buildCommand: cd web && npm ci && NEXT_PUBLIC_DEMO=true npm run build
+    staticPublishPath: web/out
+    routes:
+      - { type: rewrite, source: /front-desk, destination: /front-desk.html }
+      - { type: rewrite, source: /shelf, destination: /shelf.html }
+      - { type: rewrite, source: /reviews, destination: /reviews.html }
+      - { type: rewrite, source: /orders, destination: /orders.html }
+      - { type: rewrite, source: /agents, destination: /agents.html }
+    headers:
+      - { path: /*, name: X-Content-Type-Options, value: nosniff }
+      - { path: /*, name: X-Frame-Options, value: DENY }
